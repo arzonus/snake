@@ -26,7 +26,7 @@ type Board struct {
 }
 
 // New return new Board object
-// weight and height - is game weight and heigth
+// weight and height - is game weight and height
 // speed - game speed, more speed - slowly game
 // game speed depends on ebiten TPS
 func New(weight, height, speed int) *Board {
@@ -38,7 +38,9 @@ func New(weight, height, speed int) *Board {
 	}
 
 	// init random snake position
+
 	head := b.tileBoard.Tile(rand.Intn(b.w), rand.Intn(b.h))
+	// TODO: panic NPE
 	bottom, _ := b.tileBoard.Next(input.DirDown, head)
 	b.snake = snake.New(head, bottom, input.DirUp)
 
@@ -64,6 +66,9 @@ func (b *Board) Step() error {
 	if b.count%b.speed != 0 {
 		return nil
 	}
+	x, y := ebiten.ScreenSizeInFullscreen()
+
+	log.Println("full screen size:", x, y)
 
 	if !b.foodTile.IsFood() {
 		b.generateFood()
