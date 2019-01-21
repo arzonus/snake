@@ -26,32 +26,32 @@ type ButtonTextAlignment struct {
 	IndentX int
 	IndentY int
 
-	Rect image.Rectangle
+	rect image.Rectangle
 
-	TextHeight int
-	TextWeight int
+	textHeight int
+	textWeight int
 }
 
 func (bta ButtonTextAlignment) Vector() (x, y int) {
 
-	w := bta.Rect.Dx() / 2
-	h := bta.Rect.Dy() / 2
+	w := bta.rect.Dx() / 2
+	h := bta.rect.Dy() / 2
 
 	switch bta.Weight {
 	case ButtonTextAlignmentWeightLeft:
 		x = -w
 	case ButtonTextAlignmentWeightRight:
-		x = w - bta.TextWeight
+		x = w - bta.textWeight
 	case ButtonTextAlignmentWeightMiddle:
-		x = -bta.TextWeight / 2
+		x = -bta.textWeight / 2
 	}
 	switch bta.Height {
 	case ButtonTextAlignmentHeightUp:
-		y = -h + bta.TextHeight
+		y = -h + bta.textHeight
 	case ButtonTextAlignmentHeightDown:
 		y = h
 	case ButtonTextAlignmentHeightMiddle:
-		y = bta.TextHeight / 2
+		y = bta.textHeight / 2
 	}
 
 	// add indent and shift left corner
@@ -59,4 +59,9 @@ func (bta ButtonTextAlignment) Vector() (x, y int) {
 	y += bta.IndentY + h
 
 	return
+}
+
+func (bta ButtonTextAlignment) Pos(x, y int) (int, int) {
+	vx, vy := bta.Vector()
+	return x + vx, y + vy
 }

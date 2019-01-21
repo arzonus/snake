@@ -1,22 +1,26 @@
 package ui
 
-//
-//func (bta ButtonTextAlignment) Pos(x, y int) (int, int) {
-//	vx, vy := bta.Vector()
-//	return x + vx, y + vy
-//}
-//
-//type Button struct {
-//	Rect         image.Rectangle
-//	RectImageOpt ebiten.DrawImageOptions
-//
-//	Text          string
-//	TextFont      font.Face
-//	TextAlignment ButtonTextAlignment
-//
-//	mouseDown bool
-//	onPressed func(b *Button)
-//}
+import (
+	"github.com/hajimehoshi/ebiten"
+	"golang.org/x/image/font"
+	"image"
+)
+
+type Button struct {
+	rect     image.Rectangle
+	imageOpt ebiten.DrawImageOptions
+
+	text string
+	font font.Face
+	bta  ButtonTextAlignment
+
+	mouseDown bool
+	onPressed func(b *Button)
+}
+
+func (b *Button) ()  {
+	
+}
 //
 //func (b *Button) Update() {
 //	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
