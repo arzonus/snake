@@ -158,14 +158,14 @@ func drawCentredTxt(txt string, image *ebiten.Image, fnt font.Face, color color.
 
 func (g *Game) drawMenu(screen *ebiten.Image) error {
 	drawCentredTxt("START", screen, arcadeFont, color.Black, 0)
-	drawCentredTxt("PRESS TOUCH OR PRESS KEY", screen, smallArcadeFont, color.Black, 1)
+	drawCentredTxt("TOUCH OR PRESS KEY", screen, smallArcadeFont, color.Black, 1)
 	return nil
 }
 
 func (g *Game) drawGameOver(screen *ebiten.Image) error {
 	drawCentredTxt("GAMEOVER", screen, arcadeFont, color.Black, -2)
 	drawCentredTxt(fmt.Sprintf("YOUR RESULT: %d", g.board.Result()), screen, smallArcadeFont, color.Black, 0)
-	drawCentredTxt("PRESS TOUCH OR PRESS KEY", screen, smallArcadeFont, color.Black, 1)
+	drawCentredTxt("TOUCH OR PRESS KEY", screen, smallArcadeFont, color.Black, 1)
 	drawCentredTxt("TO START NEW GAME", screen, smallArcadeFont, color.Black, 2)
 	return nil
 }
