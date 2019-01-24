@@ -17,11 +17,17 @@ type Board struct {
 
 	tileSize   int
 	marginSize int
+
+	image *ebiten.Image
+}
+
+func (tb *Board) Image() *ebiten.Image {
+	return tb.image
 }
 
 // NewBoard returns new Board
 // w and h - weight and height of tile board
-func NewBoard(w, h int) *Board {
+func NewBoard(w, h int) (*Board, error) {
 	b := &Board{
 		w:     w,
 		h:     h,
@@ -29,6 +35,12 @@ func NewBoard(w, h int) *Board {
 
 		tileSize:   10,
 		marginSize: 1,
+	}
+
+	var err error
+	b.image, err = ebiten.NewImage(w*10, h*10, ebiten.FilterDefault)
+	if err != nil {
+		return nil, err
 	}
 
 	for i := 0; i < w; i++ {
@@ -39,7 +51,7 @@ func NewBoard(w, h int) *Board {
 	}
 	b.initImages()
 
-	return b
+	return b, nil
 }
 
 // Next returns next tile and true
@@ -75,35 +87,35 @@ func (tb *Board) initImages() {
 }
 
 // Draw response for tile drawing
-func (tb *Board) Draw(boardImage *ebiten.Image) {
-	boardImage.Fill(colors.Frame)
+func (tb *Board) Draw() error {
+	if err := tb.image.Fill(colors.Frame); err != nil {
+		return err
+	}
 	for x := 0; x < len(tb.tiles); x++ {
 		for y := 0; y < len(tb.tiles[x]); y++ {
-			tb.drawTile(tb.tiles[x][y], boardImage)
+			if err := tb.drawTile(tb.tiles[x][y], tb.image); err != nil {
+				return err
+			}
 		}
 	}
+	return nil
 }
 
-func (tb *Board) drawTile(t *Tile, boardImage *ebiten.Image) {
+func (tb *Board) drawTile(t *Tile, boardImage *ebiten.Image) error {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(float64(tb.tileSize*t.x), float64(tb.tileSize*t.y))
 
 	switch t.Type() {
 	case Empty:
-		boardImage.DrawImage(emptyImage, op)
-		return
+		return boardImage.DrawImage(emptyImage, op)
 	case Food:
-		boardImage.DrawImage(foodImage, op)
-		return
+		return boardImage.DrawImage(foodImage, op)
 	case SnakeHead:
-		boardImage.DrawImage(snakeHeadImage, op)
-		return
+		return boardImage.DrawImage(snakeHeadImage, op)
 	case SnakeBody:
-		boardImage.DrawImage(snakeBodyImage, op)
-		return
+		return boardImage.DrawImage(snakeBodyImage, op)
 	case SnakeBottom:
-		boardImage.DrawImage(snakeBodyImage, op)
-		return
+		return boardImage.DrawImage(snakeBodyImage, op)
 	default:
 		panic("no reach tile type")
 	}
