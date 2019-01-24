@@ -23,6 +23,12 @@ type Board struct {
 	speed int
 
 	image *ebiten.Image
+
+	result int
+}
+
+func (board *Board) Result() int {
+	return board.result
 }
 
 func (b *Board) Image() *ebiten.Image {
@@ -86,6 +92,7 @@ func (b *Board) Step() error {
 	}
 
 	if !b.foodTile.IsFood() {
+		b.result++
 		b.generateFood()
 	}
 

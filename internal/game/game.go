@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"github.com/arzonus/snake/internal/board"
 	"github.com/arzonus/snake/internal/colors"
 	"github.com/arzonus/snake/internal/input"
@@ -111,7 +112,7 @@ func (g *Game) update() error {
 		if ebiten.IsKeyPressed(ebiten.KeySpace) ||
 			ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) ||
 			ebiten.TouchIDs() != nil {
-			g.mode = boardMode
+			g.mode = menuMode
 			return nil
 		}
 	case menuMode:
@@ -162,7 +163,8 @@ func (g *Game) drawMenu(screen *ebiten.Image) error {
 }
 
 func (g *Game) drawGameOver(screen *ebiten.Image) error {
-	drawCentredTxt("GAMEOVER", screen, arcadeFont, color.Black, 0)
+	drawCentredTxt("GAMEOVER", screen, arcadeFont, color.Black, -2)
+	drawCentredTxt(fmt.Sprintf("YOUR RESULT: %d", g.board.Result()), screen, smallArcadeFont, color.Black, 0)
 	drawCentredTxt("PRESS TOUCH OR PRESS KEY", screen, smallArcadeFont, color.Black, 1)
 	drawCentredTxt("TO START NEW GAME", screen, smallArcadeFont, color.Black, 2)
 	return nil
